@@ -1,0 +1,127 @@
+CUDA_VISIBLE_DEVICES=2 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_valid.json --per_device_train_batch_size 1 --per_device_eval_batch_size 1 --learning_rate 3e-5 --gradient_accumulation_steps 2 --max_seq_length 512 --num_train_epochs 1 --model_name_or_path bert-base-chinese --output_dir model/
+
+CUDA_VISIBLE_DEVICES=4 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json —test_file converted_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 2e-5 --num_train_epochs 1 --model_name_or_path --output_dir model2/
+
+phase1
+current used
+(adl_hw1) b10902044@meow1 [/tmp2/b10902044/adl/hw1] CUDA_VISIBLE_DEVICES=0 python run_swag_no_trainer.py --train_file transformed_train.
+json --validation_file transformed_valid.json --per_device_train_batch_size 1 --per_device_eval_batch_size 1 --learning_rate 2e-5 --gradient_accumulation_steps 2 --num_train_epochs 2 --model_name_or_path bert-base-chinese --output_dir model/ --max_seq_length 512
+epoch 0: {'accuracy': 0.9538052509139249}
+
+new phase1()
+CUDA_VISIBLE_DEVICES=0 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_valid.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 2e-5 --gradient_accumulation_steps 1 --num_train_epochs 1 --model_name_or_path bert-base-chinese --output_dir model/ --max_seq_length 512
+{‘accuracy': 0.9597873047524095}
+
+CUDA_VISIBLE_DEVICES=0 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_test.json --per_device_train_batch_size 1 --per_device_eval_batch_size 1 --learning_rate 2e-5 --gradient_accumulation_steps 2 --num_train_epochs 1 --model_name_or_path model --output_dir model1_bert_tr/ --max_seq_length 512
+
+python convert2.py test.json
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json —test_file converted_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --do_train --do_eval --do_predict  --learning_rate 2e-5 --num_train_epochs 1 --model_name_or_path bert-base-chinese --output_dir model2/
+
+test2
+(adl_hw1) b10902044@meow2 [/tmp2/b10902044/adl/hw1] 
+CUDA_VISIBLE_DEVICES=4 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_test.json --per_device_train_batch_size 1 --per_device_eval_batch_size 1 --learning_rate 3e-5 --gradient_accumulation_steps 2 --num_train_epochs 1 --model_name_or_path bert-base-chinese --output_dir model/ --max_seq_length 512
+test_output_1.txt
+
+python convert2.py test.json
+CUDA_VISIBLE_DEVICES=3 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --do_predict --learning_rate 2e-5 --num_train_epochs 1 --model_name_or_path bert-base-chinese --output_dir model2/ --max_seq_length 512
+Evaluation metrics: {'exact_match': 78.06580259222333, 'f1': 78.08795834718069}
+output_1.csv 0.75858
+
+CUDA_VISIBLE_DEVICES=3 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 1 --per_device_eval_batch_size 1 --do_predict --learning_rate 2e-5 --gradient_accumulation_steps 2 --num_train_epochs 2 --model_name_or_path bert-base-chinese --output_dir model2/ --max_seq_length 512
+Evaluation metrics: {'exact_match': 78.79694250581589, 'f1': 78.79694250581589}
+output_2.csv
+model_2
+
+CUDA_VISIBLE_DEVICES=3 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 1 --per_device_eval_batch_size 1 --do_predict --learning_rate 2e-5 --gradient_accumulation_steps 2 --num_train_epochs 2 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_3/ --max_seq_length 512
+{'exact_match': 81.55533399800598, 'f1': 81.55533399800598}
+output_3.csv 0.77848
+model_3
+
+CUDA_VISIBLE_DEVICES=3 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 2 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 2 --num_train_epochs 2 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_4/ --max_seq_length 512
+{'exact_match': 82.15353938185444, 'f1': 82.15353938185444}
+output_4.csv 0.79023
+model_4
+
+CUDA_VISIBLE_DEVICES=3 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 2 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 3 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_5/ --max_seq_length 512
+{'exact_match': 82.95114656031905, 'f1': 82.95114656031905}
+output_5.csv 0.79204
+
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 2 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_6/ --max_seq_length 512
+{'exact_match': 81.95413758723828, 'f1': 81.95413758723828}
+output_6.csv 0.64104
+
+CUDA_VISIBLE_DEVICES=5 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 4 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_7/ --max_seq_length 512
+{'exact_match': 81.55533399800598, 'f1': 81.55533399800598}
+
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 3 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_8/ --max_seq_length 512
+{'exact_match': 82.88467929544699, 'f1': 82.88467929544699}
+output_8.csv 0.65189
+
+with new phase 1
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 3 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_9/ --max_seq_length 512
+{'exact_match': 82.7517447657029, 'f1': 82.7517447657029}
+output_9.csv 0.79113
+
+CUDA_VISIBLE_DEVICES=2 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 2 --num_train_epochs 3 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_10/ --max_seq_length 512
+{'exact_match': 81.78796942505817, 'f1': 81.78796942505817}
+output_10.csv 
+
+CUDA_VISIBLE_DEVICES=1 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 4 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_11/ --max_seq_length 512
+{'exact_match': 82.61881023595879, 'f1': 82.61881023595879}
+output_11.csv 0.79566
+
+CUDA_VISIBLE_DEVICES=3 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 3 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_13/ --max_seq_length 512
+{'exact_match': 82.55234297108674, 'f1': 82.55234297108674}
+output_13.csv 0.78661
+
+new phase1
+CUDA_VISIBLE_DEVICES=1 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 1e-5 --num_train_epochs 1 --max_seq_length 512 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_p1_shi/
+{'accuracy': 0.9687603855101362}
+test_output_3.txt
+
+CUDA_VISIBLE_DEVICES=1 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 5 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_12/ --max_seq_length 512
+{'exact_match': 82.58557660352277, 'f1': 82.58557660352277}
+output_12.csv 0.78842
+
+CUDA_VISIBLE_DEVICES=2 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 1e-5 --num_train_epochs 1 --max_seq_length 512 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_p1_shi/ && python convert.py test.json && CUDA_VISIBLE_DEVICES=2 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 4 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_14/ --max_seq_length 512
+{'exact_match': 82.81821203057494, 'f1': 82.81821203057494}
+output_14.csv 0.79113
+
+CUDA_VISIBLE_DEVICES=4 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 3 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_15/ --max_seq_length 512
+{'exact_match': 82.65204386839481, 'f1': 82.65204386839481}
+output_15.csv 0.79566
+
+phase1
+CUDA_VISIBLE_DEVICES=0 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_valid.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 2e-5 --num_train_epochs 1 --max_seq_length 512 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_p1_2e5
+{'accuracy': 0.9674310402126952}
+test_output_4.txt
+
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 4 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_16/ --max_seq_length 512
+{'exact_match': 82.91791292788302, 'f1': 82.91791292788302}
+output_16.csv 0.79204
+
+CUDA_VISIBLE_DEVICES=1 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 3 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_17/ --max_seq_length 512
+{'exact_match': 82.15353938185444, 'f1': 82.15353938185444}
+output_17.csv 0.79566
+
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 5 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_18/ --max_seq_length 512
+{'exact_match': 81.82120305749419, 'f1': 81.82120305749419}
+output_18.csv 0.79113
+
+
+submit test
+CUDA_VISIBLE_DEVICES=1 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 1e-5 --num_train_epochs 1 --max_seq_length 512 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_p1_shi/
+CUDA_VISIBLE_DEVICES=4 python run_swag_no_trainer_test.py --train_file transformed_train.json --validation_file transformed_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 1e-5 --num_train_epochs 0 --max_seq_length 512 --model_name_or_path model_p1_shi
+
+CUDA_VISIBLE_DEVICES=4 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 0 --model_name_or_path model_17 --max_seq_length 512
+
+new phase1
+CUDA_VISIBLE_DEVICES=0 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_test.json --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 2e-5 --gradient_accumulation_steps 1 --num_train_epochs 1 --model_name_or_path bert-base-chinese --output_dir model_bert_221/ --max_seq_length 512
+'accuracy': 0.959122632103689}
+
+CUDA_VISIBLE_DEVICES=1 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 4 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_19/ --max_seq_length 512
+{'exact_match': 82.02060485211034, 'f1': 82.02060485211034}
+output_19.csv
+
+CUDA_VISIBLE_DEVICES=1 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 5 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_20/ --max_seq_length 512
+{'exact_match': 82.1203057494184, 'f1': 82.1203057494184}

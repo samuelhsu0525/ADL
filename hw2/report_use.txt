@@ -1,0 +1,139 @@
+Greedy
+Beam Search
+CUDA_VISIBLE_DEVICES=0 python run_summarization_no_trainer.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_no_trainer/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 5
+
+CUDA_VISIBLE_DEVICES=5 python run_summarization_no_trainer.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_no_trainer/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 3
+
+Top-k Sampling
+Top-p Sampling
+Temperature
+
+CUDA_VISIBLE_DEVICES=1 python run_summarization_no_trainer_top_k.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_top_k_10/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --top_k 10 && mv submission.jsonl submission_top_k_10.jsonl && CUDA_VISIBLE_DEVICES=1 python run_summarization_no_trainer_top_k.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_top_k_50/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --top_k 50 && mv submission.jsonl submission_top_k_50.jsonl && CUDA_VISIBLE_DEVICES=1 python run_summarization_no_trainer.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_beam_1/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 1 && mv submission.jsonl submission_beam_1.jsonl
+
+
+CUDA_VISIBLE_DEVICES=1 python run_summarization_no_trainer_top_p.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_top_p_05/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --top_p 0.5 && mv submission.jsonl submission_top_p_05.jsonl && CUDA_VISIBLE_DEVICES=1 python run_summarization_no_trainer_top_p.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_top_p_09/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --top_p 0.9 && mv submission.jsonl submission_top_p_09.jsonl
+
+CUDA_VISIBLE_DEVICES=0 python run_summarization_no_trainer_temperature.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_top_p_09_temp_07/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --top_p 0.9 --temperature 0.7 && mv submission.jsonl submission_top_p_09_temp_07.jsonl && CUDA_VISIBLE_DEVICES=0 python run_summarization_no_trainer_temperature.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_top_p_09_temp_25/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --top_p 0.9 --temperature 2.5 && mv submission.jsonl submission_top_p_09_temp_25.jsonl
+
+curve
+CUDA_VISIBLE_DEVICES=0 python run_summarization_no_trainer_curve.py \
+  --model_name_or_path google/mt5-small \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_curve/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 5 && mv submission.jsonl submission_curve.jsonl

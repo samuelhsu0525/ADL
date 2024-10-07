@@ -1,0 +1,102 @@
+{\rtf1\ansi\ansicpg950\cocoartf2757
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 .AppleSystemUIFontMonospaced-Regular;\f2\fnil\fcharset0 HelveticaNeue;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red0\green0\blue0;
+\red255\green255\blue255;\red225\green233\blue240;\red224\green232\blue240;\red18\green21\blue26;\red225\green234\blue240;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c1\c1;\cssrgb\c100000\c100000\c100000\c0;\cssrgb\c0\c0\c0;
+\cssrgb\c100000\c100000\c99985\c0;\cssrgb\c90430\c93183\c95310;\cssrgb\c90196\c92941\c95294;\cssrgb\c8627\c10588\c13333;\cssrgb\c90547\c93303\c95318;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 cd /tmp2/b10902044/adl/hw1\
+source /tmp2/b10902044/miniconda3/etc/profile.d/conda.sh\
+conda activate adl_hw1
+\f1\fs27\fsmilli13600 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\sl-360\pardirnatural\partightenfactor0
+\cf2 \
+meow2\
+CUDA_VISIBLE_DEVICES=1 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_valid.json
+\f2\fs30 \cf4 \cb5 \kerning1\expnd0\expndtw0  --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 2e-5 --num_train_epochs 1 --max_seq_length 512 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_p1_shi_221\
+\{'accuracy': 0.969757394483217\}\
+\
+
+\f1\fs27\fsmilli13600 \cf2 \cb3 \expnd0\expndtw0\kerning0
+CUDA_VISIBLE_DEVICES=0 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_test.json
+\f2\fs30 \cf4 \cb5 \kerning1\expnd0\expndtw0  --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 2e-5 --num_train_epochs 0 --max_seq_length 512 --model_name_or_path model_p1_shi_221\
+\
+
+\f1\fs27\fsmilli13600 \cf2 \cb3 \expnd0\expndtw0\kerning0
+CUDA_VISIBLE_DEVICES=4 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 4 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_21/ --max_seq_length 512\
+\{'exact_match': 82.08707211698238, 'f1': 82.08707211698238\}\
+output_21.csv 0.78661\
+\
+CUDA_VISIBLE_DEVICES=1 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 5 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_24/ --max_seq_length 512\
+\{'exact_match': 82.55234297108674, 'f1': 82.55234297108674\}\
+\
+CUDA_VISIBLE_DEVICES=1 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 3 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_27/ --max_seq_length 512\
+\{'exact_match': 82.45264207377866, 'f1': 82.45264207377866\}\
+output_27.csv 0.79837\
+b\
+\
+CUDA_VISIBLE_DEVICES=1 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 4 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_29/ --max_seq_length 512 --seed 2028\
+\{'exact_match': 82.61881023595879, 'f1': 82.61881023595879\}\
+output_29.csv
+\f2\fs30 \cf4 \cb5 \kerning1\expnd0\expndtw0 \
+\
+meow1\
+
+\f1\fs27\fsmilli13600 \cf2 \cb3 \expnd0\expndtw0\kerning0
+CUDA_VISIBLE_DEVICES=1 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_valid.json
+\f2\fs30 \cf4 \cb5 \kerning1\expnd0\expndtw0  --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 2e-5 --num_train_epochs 1 --max_seq_length 512 --model_name_or_path shibing624/text2vec-base-chinese --seed 87 --output_dir model_p1_shi_221\
+\{'accuracy': 0.9641076769690927\}\
+\
+
+\f1\fs27\fsmilli13600 \cf2 \cb3 \expnd0\expndtw0\kerning0
+CUDA_VISIBLE_DEVICES=0 python run_swag_no_trainer.py --train_file transformed_train.json --validation_file transformed_test.json
+\f2\fs30 \cf4 \cb5 \kerning1\expnd0\expndtw0  --per_device_train_batch_size 2 --per_device_eval_batch_size 1 --learning_rate 2e-5 --num_train_epochs 0 --max_seq_length 512 --model_name_or_path model_p1_shi_221_s64\
+\
+python convert.py test.json\
+\
+
+\f1\fs27\fsmilli13600 \cf2 \cb3 \expnd0\expndtw0\kerning0
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 5 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_22/ --max_seq_length 512\
+\{'exact_match': 82.02060485211034, 'f1': 82.02060485211034\}\
+output_22.csv 0.79927\
+b\
+\
+test\
+CUDA_VISIBLE_DEVICES=1 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 0 --model_name_or_path model_22/ --max_seq_length 512\
+\
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 4 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_23/ --max_seq_length 512\
+\{'exact_match': 82.25324027916251, 'f1': 82.25324027916251\}\
+output_23.csv 0.79204\
+b\
+\
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 3 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_25/ --max_seq_length 512\
+\{'exact_match': 82.18677301429047, 'f1': 82.18677301429047\}\
+output_25.csv 0.79927\
+b\
+\
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 5 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_26/ --max_seq_length 512 --seed 44\
+\{'exact_match': 81.95413758723828, 'f1': 81.95413758723828\}\
+\
+CUDA_VISIBLE_DEVICES=0 python run_qa_no_trainer.py --train_file converted_train.json --validation_file converted_valid.json --test_file converted_test.json --per_device_train_batch_size 4 --per_device_eval_batch_size 4 --do_predict --learning_rate 1e-5 --gradient_accumulation_steps 1 --num_train_epochs 4 --model_name_or_path shibing624/text2vec-base-chinese --output_dir model_28/ --max_seq_length 512 --seed 87\
+\{'exact_match': 82.1203057494184, 'f1': 82.1203057494184\}\
+output_28.csv 0.79927\
+b\
+\cf4 \
+\cf2 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\sl-360\pardirnatural\partightenfactor0
+\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\sl-360\pardirnatural\partightenfactor0
+
+\fs27\fsmilli13600 \cf7 \cb8 \outl0\strokewidth0 \strokec7 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\sl-360\pardirnatural\partightenfactor0
+
+\fs27\fsmilli13600 \cf2 \cb5 \outl0\strokewidth0 \
+}

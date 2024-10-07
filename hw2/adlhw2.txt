@@ -1,0 +1,241 @@
+cd /tmp2/b10902044/adl/hw2
+source /tmp2/b10902044/miniconda3/etc/profile.d/conda.sh
+conda activate adl_env
+
+m1
+CUDA_VISIBLE_DEVICES=1 python run_summarization.py \
+  --model_name_or_path google/mt5-small \
+  --train_file data/train.json \
+  --test_file data/public.json \
+  --output_dir model_1/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext\
+  --summary_column title\
+  --num_train_epochs 5 \
+  --learning_rate 1e-4 \
+  --save_steps 1000 \
+  --logging_steps 100 \
+  --overwrite_output_dir \
+  --predict_with_generate \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --do_train
+
+CUDA_VISIBLE_DEVICES=1 python run_summarization.py \
+  --model_name_or_path google/mt5-small \
+  --train_file data/train.json \
+  --test_file data/public.json \
+  --output_dir model_e6_1e4/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext\
+  --summary_column title\
+  --num_train_epochs 6 \
+  --learning_rate 1e-4 \
+  --save_steps 100000 \
+  --logging_steps 100 \
+  --overwrite_output_dir \
+  --predict_with_generate \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --do_train
+
+predict submission_5e45
+CUDA_VISIBLE_DEVICES=1 python run_summarization.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --test_file data/public.json \
+  --output_dir model_test/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 0 \
+  --learning_rate 1e-4 \
+  --save_steps 1000 \
+  --logging_steps 100 \
+  --overwrite_output_dir \
+  --predict_with_generate \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 5 \
+  --do_predict
+
+python eval.py -r ../data/public.jsonl -s ../submission.jsonl
+
+predict submission_5e48
+CUDA_VISIBLE_DEVICES=1 python run_summarization.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --test_file data/public.json \
+  --output_dir model_test2/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 0 \
+  --learning_rate 1e-4 \
+  --save_steps 1000 \
+  --logging_steps 100 \
+  --overwrite_output_dir \
+  --predict_with_generate \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 8 \
+  --do_predict
+
+____________________________
+
+m2
+CUDA_VISIBLE_DEVICES=3 python run_summarization.py \
+  --model_name_or_path google/mt5-small \
+  --train_file data/train.json \
+  --test_file data/public.json \
+  --output_dir model_2/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext\
+  --summary_column title\
+  --num_train_epochs 6 \
+  --learning_rate 1e-4 \
+  --save_steps 1000 \
+  --logging_steps 100 \
+  --overwrite_output_dir \
+  --predict_with_generate \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --do_train
+
+predict submission_6e48
+CUDA_VISIBLE_DEVICES=5 python run_summarization.py \
+  --model_name_or_path model_2 \
+  --train_file data/train.json \
+  --test_file data/public.json \
+  --output_dir model_test1/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 0 \
+  --learning_rate 1e-4 \
+  --save_steps 1000 \
+  --logging_steps 100 \
+  --overwrite_output_dir \
+  --predict_with_generate \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 8 \
+  --do_predict
+
+plot
+CUDA_VISIBLE_DEVICES=6 python run_summarization.py \
+  --model_name_or_path google/mt5-small \
+  --train_file data/train.json \
+  --test_file data/public.json \
+  --output_dir model_plot/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext\
+  --summary_column title\
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --save_steps 2 \
+  --logging_steps 100 \
+  --overwrite_output_dir \
+  --predict_with_generate \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --max_train_samples 20 \
+  --do_train
+
+CUDA_VISIBLE_DEVICES=0 python run_summarization_no_trainer.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_no_trainer/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 2
+
+CUDA_VISIBLE_DEVICES=0 python run_summarization_no_trainer.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_no_trainer/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --top_k 1
+
+m2
+CUDA_VISIBLE_DEVICES=5 python run_summarization_no_trainer.py \
+  --model_name_or_path model_2 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_no_trainer/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 5
+
+test learnrate 5e-4
+CUDA_VISIBLE_DEVICES=1 python run_summarization.py \
+  --model_name_or_path google/mt5-small \
+  --train_file data/train.json \
+  --test_file data/public.json \
+  --output_dir model_5e4_e5/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext\
+  --summary_column title\
+  --num_train_epochs 5 \
+  --learning_rate 5e-4 \
+  --save_steps 10000 \
+  --logging_steps 100 \
+  --overwrite_output_dir \
+  --predict_with_generate \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --do_train
+
+final
+CUDA_VISIBLE_DEVICES=2 python train.py \
+  --model_name_or_path google/mt5-small \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_train_e5_1e4_87/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 5 \
+  --learning_rate 1e-4 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 3
+  --seed 87
+
+CUDA_VISIBLE_DEVICES=2 python predict.py \
+  --model_name_or_path model_1 \
+  --train_file data/train.json \
+  --validation_file data/public.json \
+  --output_dir model_predict_test/ \
+  --per_device_train_batch_size 4 \
+  --text_column maintext \
+  --summary_column title \
+  --num_train_epochs 1 \
+  --learning_rate 1e-4 \
+  --per_device_eval_batch_size 8 \
+  --max_source_length 1024 \
+  --max_target_length 128 \
+  --num_beams 5 \
+  --seed 64
+
+test
+
+

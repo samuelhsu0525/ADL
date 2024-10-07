@@ -1,0 +1,33 @@
+cd /tmp2/b10902044/adl/hw3
+source /tmp2/b10902044/miniconda3/etc/profile.d/conda.sh
+conda activate adl_env
+
+checkpoint-24: Mean perplexity: 4.110019429206848
+checkpoint-48: Mean perplexity: 3.8416107516288758
+checkpoint-76: Mean perplexity: 3.756167706489563
+checkpoint-96: Mean perplexity: 3.7159493522644045
+checkpoint-100: Mean perplexity: 3.7051616711616515
+
+qlora-out_curve/
+checkpoint-32: Mean perplexity: 4.0206313886642455
+checkpoint-64: Mean perplexity: 3.797881936073303
+checkpoint-96: Mean perplexity: 3.713958703517914
+checkpoint-128: Mean perplexity: 3.6286749324798584
+checkpoint-159: Mean perplexity: 3.623328058719635
+
+qlora-out_0.6_1_1_1/
+Mean perplexity: 3.6147475180625914
+
+CUDA_VISIBLE_DEVICES=1 python ppl.py --base_model_path Taiwan-LLM-7B-v2.0-chat --peft_path qlora-out_0.6_1_1_1/ --test_data_path data/public_test.json
+
+CUDA_VISIBLE_DEVICES=1 python predict.py --base_model_path Taiwan-LLM-7B-v2.0-chat --model_path qlora-out_0.6_1_1_1/ --input_file data/private_test.json --output_file predict.json
+
+zero shot:
+Mean perplexity: 5.450592497348786
+
+few shot:
+python ppl.py --base_model_path Taiwan-LLM-7B-v2.0-chat --peft_path qlora-out_0.6_1_1_1/ --test_data_path data/public_test.json
+Mean perplexity: 4.869869946956634
+
+lora:
+Mean perplexity: 3.6661360869407655
